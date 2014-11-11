@@ -12,6 +12,7 @@ class CategoriesController < ApplicationController
 
   def new
     @category = Category.new
+    @category.products.build
     respond_with(@category)
   end
 
@@ -40,6 +41,7 @@ class CategoriesController < ApplicationController
     end
 
     def category_params
-      params.require(:category).permit(:name)
+      params.require(:category).permit(:name,
+        products_attributes: [:id,:category_id,:name])
     end
 end

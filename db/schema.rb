@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141111100804) do
+ActiveRecord::Schema.define(version: 20141111212405) do
 
   create_table "blogs", force: true do |t|
     t.string   "title"
@@ -22,6 +22,23 @@ ActiveRecord::Schema.define(version: 20141111100804) do
   end
 
   create_table "categories", force: true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "products_count", default: 0
+  end
+
+  create_table "group_users", force: true do |t|
+    t.integer  "user_id"
+    t.integer  "group_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "group_users", ["group_id"], name: "index_group_users_on_group_id"
+  add_index "group_users", ["user_id"], name: "index_group_users_on_user_id"
+
+  create_table "groups", force: true do |t|
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -43,6 +60,16 @@ ActiveRecord::Schema.define(version: 20141111100804) do
 
   add_index "user_blogs", ["blog_id"], name: "index_user_blogs_on_blog_id"
   add_index "user_blogs", ["user_id"], name: "index_user_blogs_on_user_id"
+
+  create_table "user_categories", force: true do |t|
+    t.integer  "user_id"
+    t.integer  "category_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "user_categories", ["category_id"], name: "index_user_categories_on_category_id"
+  add_index "user_categories", ["user_id"], name: "index_user_categories_on_user_id"
 
   create_table "users", force: true do |t|
     t.string   "email",                  default: "", null: false
